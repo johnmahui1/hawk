@@ -1,0 +1,84 @@
+<root>
+  <Doc Name="" Description="" Version="0" SavePath="H:\GoogleDownload\Hawk2__1\dianping.xml">
+    <DBConnections />
+    <Children Name="dianping_shopall" Type="SmartCrawler" URL="http://www.dianping.com/shopall/1/0" RootXPath="" IsMultiData="List" IsSuperMode="False" ShareCookie="" Description="任务描述" ScriptPath="">
+      <HttpSet URL="" Allowautoredirect="True" Postdata="" Encoding="Unknown" Method="GET" Parameters="User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&#xA;" />
+    </Children>
+    <Children Name="dpRegionList" Type="SmartETLTool" MaxThreadCount="20" GenerateMode="串行模式" SampleMount="20" Description="任务描述" ScriptPath="">
+      <Children Enabled="True" Content="http://www.dianping.com/shopall/1/0" Column="text" MergeType="Append" Type="TextGE" Group="Generator" />
+      <Children Enabled="True" MaxTryCount="1" ErrorDelay="3000" CrawlerSelector="dpShopAll" Column="text" NewColumn="" OneOutput="False" IsMultiYield="False" Type="CrawlerTF" Group="Transformer" />
+      <Children Enabled="True" XPath="//*[@id=&quot;J-shopall&quot;]/div/div[2]/dl/dd/ul/li" IsManyData="True" GetText="False" GetTextHtml="False" GetCount="False" Column="Content" NewColumn="" OneOutput="True" IsMultiYield="True" Type="XPathTF" Group="Transformer" />
+      <Children Enabled="True" FromBack="False" ShouldSplitChars="False" SplitPause="False" SplitNull="True" Index="0" SplitChar="|" Column="Text" NewColumn="" OneOutput="True" IsMultiYield="False" Type="SplitTF" Group="Transformer" />
+      <Children Enabled="True" IsMultiYield="False" Index="0" Script="r\d+" NewColumn="region" Column="HTML" OneOutput="True" Type="RegexTF" Group="Transformer" />
+      <Children Enabled="True" Column="Text" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="OHTML" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="HTML" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+    </Children>
+    <Children Name="dpShopAll" Type="SmartCrawler" URL="http://www.dianping.com/shopall/1/0" RootXPath="" IsMultiData="List" IsSuperMode="False" ShareCookie="" Description="任务描述" ScriptPath="">
+      <HttpSet URL="" Allowautoredirect="True" Postdata="" Encoding="Unknown" Method="GET" Parameters="User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&#xA;" />
+    </Children>
+    <Children Name="dpCategoryList" Type="SmartETLTool" MaxThreadCount="20" GenerateMode="串行模式" SampleMount="20" Description="任务描述" ScriptPath="">
+      <Children Enabled="True" Content="http://www.dianping.com/shopall/1/0" Column="text" MergeType="Append" Type="TextGE" Group="Generator" />
+      <Children Enabled="True" MaxTryCount="1" ErrorDelay="3000" CrawlerSelector="dpShopAll" Column="text" NewColumn="" OneOutput="False" IsMultiYield="False" Type="CrawlerTF" Group="Transformer" />
+      <Children Enabled="True" XPath="//*[@id=&quot;J-shopall&quot;]/div/div[1]/dl[2]/dd/ul/li" IsManyData="True" GetText="False" GetTextHtml="False" GetCount="False" Column="Content" NewColumn="" OneOutput="True" IsMultiYield="True" Type="XPathTF" Group="Transformer" />
+      <Children Enabled="True" FromBack="False" ShouldSplitChars="False" SplitPause="False" SplitNull="True" Index="0" SplitChar="|" Column="Text" NewColumn="" OneOutput="True" IsMultiYield="False" Type="SplitTF" Group="Transformer" />
+      <Children Group="Filter" Enabled="True" Script="(西餐)|(面包甜点)|(咖啡厅)|(下午茶)|(茶馆)" Count="1" Revert="False" Column="Text" IsDebugFilter="True" Type="RegexFT" />
+      <Children Enabled="True" IsMultiYield="False" Index="0" Script="g\d+" NewColumn="category" Column="HTML" OneOutput="True" Type="RegexTF" Group="Transformer" />
+      <Children Enabled="True" Column="Text" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="OHTML" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="HTML" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+    </Children>
+    <Children Name="dpStore" Type="SmartCrawler" URL="http://www.dianping.com/shanghai/ch10/g116r865" RootXPath="/html[1]/body[1]/div[2]/div[3]/div[1]/div[1]/div[2]/ul[1]/li" IsMultiData="List" IsSuperMode="False" ShareCookie="" Description="任务描述" ScriptPath="">
+      <HttpSet URL="" Allowautoredirect="True" Postdata="" Encoding="Unknown" Method="GET" Parameters="User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&#xA;Cookie:s_ViewType=10;Domain=.dianping.com;Expires=Sat, 25-Jan-2020 12:20:51 GMT;Path=/;=&#xA;" />
+      <Children Name="storeId" XPath="/div[2]/div[2]/a[1]/@href[1]" IsHtml="False" />
+      <Children Name="storeName" XPath="/div[2]/div[1]/a[1]/h4[1]" IsHtml="False" />
+      <Children Name="storeUrl" XPath="/div[2]/div[2]/a[2]/@href[1]" IsHtml="False" />
+      <Children Name="flavor" XPath="/div[2]/span[1]/span[1]/b[1]" IsHtml="False" />
+      <Children Name="ambient" XPath="/div[2]/span[1]/span[2]/b[1]" IsHtml="False" />
+      <Children Name="service" XPath="/div[2]/span[1]/span[3]/b[1]" IsHtml="False" />
+      <Children Name="storeAddress" XPath="/div[2]/div[3]/span[1]" IsHtml="False" />
+      <Children Name="classify" XPath="/div[2]/div[2]/span[1]/@title[1]" IsHtml="False" />
+      <Children Name="comments" XPath="/div[2]/div[2]/a[1]/b[1]" IsHtml="False" />
+      <Children Name="region" XPath="/div[2]/div[3]/a[2]/span[1]" IsHtml="False" />
+      <Children Name="perPerson" XPath="/div[2]/div[2]/a[2]/b[1]" IsHtml="False" />
+      <Children Name="mainDish_1" XPath="/div[2]/div[4]/a[1]" IsHtml="False" />
+      <Children Name="mainDish_2" XPath="/div[2]/div[4]/a[2]" IsHtml="False" />
+      <Children Name="mainDish_3" XPath="/div[2]/div[4]/a[3]" IsHtml="False" />
+      <Children Name="a_onclick" XPath="/div[2]/div[1]/a[1]/@onclick[1]" IsHtml="False" />
+      <Children Name="promo-icon_J_promo_icon_ipromote_icon-only_title" XPath="/div[2]/div[1]/div[1]/a[2]/@title[1]" IsHtml="False" />
+      <Children Name="promo-icon_J_promo_icon_ipromote_icon-only_class" XPath="/div[2]/div[1]/div[1]/a[2]/@class[1]" IsHtml="False" />
+      <Children Name="promo-icon_J_promo_icon_ipromote_icon-only_data-click-name" XPath="/div[2]/div[1]/div[1]/a[2]/@data-click-name[1]" IsHtml="False" />
+      <Children Name="comment_sml-rank-stars_sml-str45_class" XPath="/div[2]/div[2]/span[1]/@class[1]" IsHtml="False" />
+      <Children Name="a_href" XPath="/div[2]/div[3]/a[2]/@href[1]" IsHtml="False" />
+      <Children Name="a_data-click-name" XPath="/div[3]/a[1]/@data-click-name[1]" IsHtml="False" />
+      <Children Name="_svr-info_class" XPath="/div[3]/@class[1]" IsHtml="False" />
+      <Children Name="operate_J_operate_Hide_o-favor_J_o-favor_data-fav-referid" XPath="/div[4]/a[2]/@data-fav-referid[1]" IsHtml="False" />
+    </Children>
+    <Children Name="dpPageUrl" Type="SmartETLTool" MaxThreadCount="20" GenerateMode="串行模式" SampleMount="20" Description="任务描述" ScriptPath="">
+      <Children MergeType="Append" Group="Generator" ETLSelector="dpRegionList" ETLRange="" Column="column" Enabled="True" Type="EtlGE" />
+      <Children MergeType="Cross" Group="Generator" ETLSelector="dpCategoryList" ETLRange="" Column="column" Enabled="True" Type="EtlGE" />
+      <Children Enabled="True" MergeWith="category" Format="http://www.dianping.com/shanghai/ch10/{1}{0}" Column="region" NewColumn="url" OneOutput="True" IsMultiYield="False" Type="MergeTF" Group="Transformer" />
+      <Children Enabled="True" MaxTryCount="1" ErrorDelay="3000" CrawlerSelector="dpTotal" Column="url" NewColumn="" OneOutput="False" IsMultiYield="False" Type="CrawlerTF" Group="Transformer" />
+      <Children Enabled="True" IsMultiYield="False" Index="0" Script="(-?\d+)(\.\d+)?" NewColumn="" Column="content" OneOutput="True" Type="NumberTF" Group="Transformer" />
+      <Children Enabled="True" ScriptWorkMode="不进行转换" Script="v=int(value)&#xD;&#xA;50 if v&gt;750 else int(v/15)+1" Column="content" NewColumn="totalPage" OneOutput="False" IsMultiYield="False" Type="PythonTF" Group="Transformer" />
+      <Children Enabled="True" MinValue="1" MaxValue="[totalPage]" Interval="1" Column="totalPage" MergeType="Cross" Type="RangeGE" Group="Generator" />
+      <Children Enabled="True" MergeWith="url" Format="{1}p{0}" Column="totalPage" NewColumn="pageUrl" OneOutput="True" IsMultiYield="False" Type="MergeTF" Group="Transformer" />
+      <Children Enabled="True" Column="url" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="content" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="totalPage" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="region" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+      <Children Enabled="True" Column="category" NewColumn="" OneOutput="False" IsMultiYield="False" Type="DeleteTF" Group="Transformer" />
+    </Children>
+    <Children Name="dpTotal" Type="SmartCrawler" URL="http://www.dianping.com/shanghai/ch10/g116r835" RootXPath="" IsMultiData="One" IsSuperMode="False" ShareCookie="" Description="任务描述" ScriptPath="">
+      <HttpSet URL="" Allowautoredirect="True" Postdata="" Encoding="Unknown" Method="GET" Parameters="User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&#xA;Cookie:s_ViewType=10;Domain=.dianping.com;Expires=Sat, 25-Jan-2020 14:36:29 GMT;Path=/;=&#xA;" />
+      <Children Name="content" XPath="/html[1]/head[1]/meta[2]/@content[1]" IsHtml="False" />
+    </Children>
+    <Children Name="dpStoreInfo" Type="SmartETLTool" MaxThreadCount="10" GenerateMode="串行模式" SampleMount="20" Description="任务描述" ScriptPath="">
+      <Children MergeType="Append" Group="Generator" ETLSelector="dpPageUrl" ETLRange="" Column="column" Enabled="True" Type="EtlGE" />
+      <Children Enabled="True" MaxTryCount="1" ErrorDelay="3000" CrawlerSelector="dpStore" Column="pageUrl" NewColumn="" OneOutput="False" IsMultiYield="True" Type="CrawlerTF" Group="Transformer" />
+      <Children Enabled="True" IsMultiYield="False" Index="1" Script="(shop/)|(\d+)" NewColumn="storeId" Column="storeUrl" OneOutput="True" Type="RegexTF" Group="Transformer" />
+      <Children Group="Executor" Enabled="True" Table="dpStoreInfo" Column="storeId" Type="TableEX" />
+      <Children Group="Filter" Enabled="True" Revert="False" Column="storeId" IsDebugFilter="True" Type="RepeatFT" />
+    </Children>
+  </Doc>
+</root>
